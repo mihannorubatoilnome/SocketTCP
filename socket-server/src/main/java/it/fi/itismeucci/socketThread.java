@@ -6,9 +6,11 @@ import java.net.*;
 public class socketThread extends Thread{
 
     protected final Socket client;
+    protected final socketServer server;
 
-    public socketThread(Socket client){
+    public socketThread(Socket client, socketServer server){
         this.client = client;
+        this.server = server;
     }
 
     @Override
@@ -18,9 +20,28 @@ public class socketThread extends Thread{
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 DataOutputStream out = new DataOutputStream(client.getOutputStream());
                 String recv = in.readLine();
-                if(recv == "FINE"){
+                if(recv.equals("FINE")){
                     System.out.println("\nConnessione terminata");
+                    out.writeBytes("\n"); 
                     client.close();
+                    server.clients.remove(client);
+                    break;
+                }
+                else if (recv.equals("SPEGNI"))
+                {
+                    server.serverPort.close();
+                    out.writeBytes("\n"); 
+
+                    for (Socket s : server.clients)
+                    {
+                        try
+                        {
+                            s.close();
+                        } catch (Exception ex) { }
+                    }
+
+                    server.clients.clear();
+                    break;
                 }
                 System.out.print("\nStringa ricevuta: " + recv);
                 String modifiedRecv = recv.toUpperCase();

@@ -23,9 +23,10 @@ public class socketClient{
     public void send() throws IOException
     {
         for(;;){
-            System.out.print("\nInserisci la stringa da trasmettere al server" + '\n');
+            System.out.print("\nInserisci la stringa da trasmettere al server: ");
             this.userString = this.keyboard.next();
             if(userString.toUpperCase().equals("FINE")){
+                System.out.println("Connessione col server Terminata");
                 break;
             }
             else{
@@ -33,6 +34,7 @@ public class socketClient{
                 serverString = in.readLine();
                 System.out.print("\nRisposta dal server: " + serverString);
             }
+            
         }
     }
 }
