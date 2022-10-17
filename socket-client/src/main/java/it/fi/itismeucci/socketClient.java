@@ -25,7 +25,7 @@ public class socketClient{
         for(;;){
             System.out.print("\nInserisci la stringa da trasmettere al server: ");
             this.userString = this.keyboard.next();
-            if(userString.toUpperCase().equals("FINE")){
+            if(userString.equals("FINE")){
                 System.out.println("Connessione col server Terminata");
                 break;
             }
